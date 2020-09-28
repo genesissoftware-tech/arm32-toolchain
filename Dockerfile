@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.12
 
 MAINTAINER Marek Mosna <marek.mosna@prusa3d.cz>
 
@@ -8,7 +8,7 @@ RUN mkdir ${TOOLS_PATH}
 WORKDIR ${TOOLS_PATH}
 
 # Install basic programs and custom glibc
-RUN apk --no-cache add ca-certificates wget make cmake stlink \
+RUN apk --no-cache add ca-certificates wget make cmake ninja \
 	&& wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
 	&& wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-2.29-r0.apk \
 	&& apk add glibc-2.29-r0.apk \
@@ -27,4 +27,4 @@ RUN wget ${TOOLCHAIN_TARBALL_URL} \
 ENV PATH="${TOOLCHAIN_PATH}/bin:${PATH}"
 
 # Change workdir
-WORKDIR /build
+WORKDIR /work
