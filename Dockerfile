@@ -1,6 +1,6 @@
 FROM alpine:3.12
 
-MAINTAINER Marek Mosna <marek.mosna@prusa3d.cz>
+LABEL maintainer="marek.mosna@prusa3d.cz"
 
 # Prepare directory for tools
 ARG TOOLS_PATH=/tools
