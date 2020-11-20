@@ -2,11 +2,6 @@ FROM alpine:3.12
 
 LABEL maintainer="marek.mosna@prusa3d.cz"
 
-# Prepare directory for tools
-ARG TOOLS_PATH=/tools
-RUN mkdir ${TOOLS_PATH}
-WORKDIR ${TOOLS_PATH}
-
 # Install basic programs and custom glibc
 RUN apk --no-cache add ca-certificates build-base wget make cmake ninja git \
 	&& wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
@@ -14,7 +9,12 @@ RUN apk --no-cache add ca-certificates build-base wget make cmake ninja git \
 	&& apk add glibc-2.29-r0.apk \
 	&& rm glibc-2.29-r0.apk
 
-# Install STM32 toolchain
+# Prepare directory for tools
+ARG TOOLS_PATH=/tools
+RUN mkdir ${TOOLS_PATH}
+WORKDIR ${TOOLS_PATH}
+
+# Install ARM32 toolchain
 ARG TOOLCHAIN_TARBALL_URL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2020q2/gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2"
 ARG TOOLCHAIN_PATH=${TOOLS_PATH}/toolchain
 RUN wget ${TOOLCHAIN_TARBALL_URL} \
